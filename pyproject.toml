@@ -1,0 +1,37 @@
+[project]
+name = "Simulação de rede social"
+
+[tool.poetry]
+name = "simulacao-rede-social"
+version = "0.1.0"
+description = ""
+authors = ["Felipe Gomes Duarte <xfelipegd@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11.9"
+fastapi = {extras = ["standard"], version = ">=0.112.2"}
+uvicorn = {extras = ["standard"], version = ">=0.30.6"}
+sqlalchemy = ">=2.0.32"
+psycopg2-binary = ">=2.9.9"
+asyncpg = ">=0.29.0"
+alembic = ">=1.13.2"
+pydantic-settings = "^2.4.0"
+gunicorn = ">=23.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8.3.2"
+httpx = ">=0.27.2"
+pytest-cov = ">=5.0.0"
+ruff = ">=0.6.3"
+taskipy = "^1.13.0"
+
+[tool.taskipy.tasks]
+run = "fastapi dev social_network_simulation/api.py"
+deploy = "gunicorn social_network_simulation.api:app --workers=4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:5000"
+test = "pytest --cov social_network_simulation"
+coverage = "coverage html"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
