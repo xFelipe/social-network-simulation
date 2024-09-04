@@ -1,7 +1,14 @@
 # Social media simulation
 
-
+Implementation order:
+User > Post > Messages > Post Comments
 ## Scope:
+
+BaseModel:
+id: int, pk
+created_at: datetime, auto
+updated_at: datetime, auto
+
 
  - Message
    - sender: User
@@ -13,15 +20,16 @@
     - content: text
     - media: url
     - likes: list[Like]
+    - Tags: list[str]
 
  - User
-   - Nome
-   - Idade
-   - Gender
-     - Masculino
-     - Feminino
-     - Outro
-   - Religion
+   - name
+   - birthday
+   - Sex
+     - male
+     - female
+     - another
+   - Religions
      - Cristianismo
      - Islamismo
      - Judaísmo
