@@ -180,4 +180,4 @@ pyrightconfig.json
 
 .ruff_cache
 
-*/test.db
+test.db

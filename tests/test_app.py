@@ -1,9 +1,8 @@
-from fastapi import status
 import pytest
 
 
 @pytest.mark.asyncio
-async def test_root_must_return_ok_and_ola_mundo(client):
-    response = client.get("/")
-    assert response.status_code == status.HTTP_200_OK
+async def test_root_must_return_ok_and_ola_mundo(context):
+    response = context.client.get("/")
+    assert response.status_code == 200
     assert response.json() == {"message": "Olá mundo!"}

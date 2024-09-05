@@ -35,7 +35,7 @@ run = "fastapi dev social_network_simulation/app.py"
 deploy = "gunicorn social_network_simulation.app:app --workers=4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:5000"
 lint = "ruff check . --fix; ruff format ."
 pre_test = "task lint"
-test = "pytest -v --cov social_network_simulation"
+test = "pytest -s -v --cov social_network_simulation -vv" #  -x
 coverage = "coverage html"
 recreate = "python -c \"from social_network_simulation.core.database import recreate_tables ; recreate_tables() \" "
 

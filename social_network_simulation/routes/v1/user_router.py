@@ -1,7 +1,11 @@
 from fastapi.routing import APIRouter
 from fastapi import Depends
 from social_network_simulation.services.user_service import UserService
-from social_network_simulation.schemas.user_schema import UserSchema, UserPublic
+from social_network_simulation.schemas.user_schema import (
+    UserSchema,
+    UserPublic,
+    UserUpdateSchema,
+)
 from social_network_simulation.core.database import AsyncSession, get_session
 from typing import List
 from fastapi import status, HTTPException
@@ -42,3 +46,22 @@ async def get_user(user_id: int, session: AsyncSession = Depends(get_session)):
             status.HTTP_404_NOT_FOUND, f"Não existe usuário com id {user_id}."
         )
     return user
+
+
+@router.put("/{user_id}", response_model=UserPublic, status_code=status.HTTP_200_OK)
+async def update_user(
+    user_id: int,
+    user_update_data: UserUpdateSchema,
+    session: AsyncSession = Depends(get_session),
+):
+    user = await service.update(user_id, user_update_data, session)
+    if not user:
+        raise HTTPException(
+            status.HTTP_404_NOT_FOUND, f"Não existe usuário com id {user_id}."
+        )
+    return user
+
+
+@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user(user_id: int, session: AsyncSession = Depends(get_session)):
+    await service.delete(user_id, session)

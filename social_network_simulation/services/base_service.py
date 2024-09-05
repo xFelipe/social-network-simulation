@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from typing import List
 from social_network_simulation.core.database import AsyncSession
 from social_network_simulation.core.deps import setup_logging
@@ -29,6 +29,9 @@ class BaseService:
         query = select(self.Model).where(self.Model.id == id)
         result = await session.execute(query)
         item = result.scalar_one_or_none()
-        logger.info("--==--")
-        logger.info(item)
         return item
+
+    async def delete(self, id, session: AsyncSession):
+        query = delete(self.Model).where(self.Model.id == id)
+        await session.execute(query)
+        await session.commit()
